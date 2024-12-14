@@ -27,14 +27,17 @@ public class DatabaseInitializer implements CommandLineRunner {
             product.setName("Product " + i);
             product.setDescription("Product Description " + i);
             product.setPrice(100.0 + i);
-            product.setSKU(generateSku(i));
+            product.setSku(generateSku(i));
+            product.setQuantity((int)(Math.random() * 100) + 10);
+            product.setShelf(generateShelf(i));
             productRepository.save(product);
         });
         System.out.println("Database initialized with 100 products");
     }
 
     private String generateSku(int i){
-        return "SKU " + String.format("-%04d", i);
+        return "SKU" + String.format("-%04d", i);
     }
+    private String generateShelf(int i){return "Hylla " + String.format("-%04d", i);}
 
 }

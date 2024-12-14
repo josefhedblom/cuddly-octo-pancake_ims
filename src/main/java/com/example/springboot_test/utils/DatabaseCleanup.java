@@ -1,23 +1,29 @@
 package com.example.springboot_test.utils;
 
-
-import com.example.springboot_test.product.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
-
-import jakarta.annotation.PreDestroy;
 
 @Profile("dev")
 @Component
-public class DatabaseCleanup {
+public class DatabaseCleanup implements ApplicationListener<ContextClosedEvent> {
 
-    @Autowired
-    private ProductRepository productRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @PreDestroy
-    public void cleanUp() {
-        productRepository.deleteAll();
-        System.out.println("Database cleaned up: All products deleted");
+    @Override
+    @Transactional
+    public void onApplicationEvent(ContextClosedEvent event) {
+        System.out.println("Attempting to clean up the database...");
+        try {
+            entityManager.createNativeQuery("DROP TABLE IF EXISTS products").executeUpdate();
+            System.out.println("Database cleaned up: Table 'products' dropped");
+        } catch (Exception e) {
+            System.err.println("Failed to clean up database: " + e.getMessage());
+        }
     }
 }

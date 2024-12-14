@@ -20,15 +20,25 @@ public class Product {
     private Double price;
 
     @Column(nullable = false)
-    private String SKU;
+    private String sku;
+
+    @Column(nullable = false)
+    private int quantity;
+
+    @Column(nullable = false)
+    private String shelf;
 
     public Product() {
     }
 
-    public Product(Long id, double price, String description) {
+    public Product(Long id, String title, double price, String description, String sku, int quantity, String shelf) {
         this.id = id;
+        this.name = name;
         this.price = price;
         this.description = description;
+        this.sku = sku;
+        this.quantity = quantity;
+        this.shelf = shelf;
     }
 
     public Long getId() {
@@ -63,13 +73,21 @@ public class Product {
         this.price = price;
     }
 
-    public String getSKU() {
-        return SKU;
+    public String getSku() {
+        return sku;
     }
 
-    public void setSKU(String SKU) {
-        this.SKU = SKU;
+    public void setSku(String sku) {
+        this.sku = sku;
     }
+
+    public int getQuantity() {return quantity;}
+
+    public void setQuantity(int quantity) {this.quantity = quantity;}
+
+    public String getShelf() {return shelf;}
+
+    public void setShelf(String shelf) {this.shelf = shelf;}
 
     @Override
     public String toString() {
@@ -78,7 +96,9 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", SKU='" + SKU + '\'' +
+                ", SKU='" + sku + '\'' +
+                ", quantity=" + quantity +
+                ", shelf='" + shelf + '\'' +
                 '}';
     }
 }
