@@ -38,6 +38,6 @@ public class DatabaseInitializer implements CommandLineRunner {
     private String generateSku(int i){
         return "SKU" + String.format("-%04d", i);
     }
-    private String generateShelf(int i){return "Hylla " + String.format("-%04d", i);}
+    private String generateShelf(int i){return "Hylla" + String.format("-%04d", i);}
 
 }
