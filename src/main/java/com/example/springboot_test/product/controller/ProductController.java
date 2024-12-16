@@ -55,6 +55,29 @@ public class ProductController {
         }
     }
 
+    @PutMapping("/{id}/add")
+    public ResponseEntity<Product> addStock(@PathVariable Long id, @RequestParam int amount) {
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            product.setQuantity(product.getQuantity() + amount);
+            return ResponseEntity.ok(productService.updateProduct(id, product));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/subtract")
+    public ResponseEntity<Product> subtractStock(@PathVariable Long id, @RequestParam int amount) {
+        Product product = productService.getProductById(id);
+        if (product != null && product.getQuantity() >= amount) {
+            product.setQuantity(product.getQuantity() - amount);
+            return ResponseEntity.ok(productService.updateProduct(id, product));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         boolean isDeleted = productService.deleteProduct(id);
